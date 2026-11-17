@@ -1,0 +1,43 @@
+{
+  "_comment": "REA MCP registration extracted from ~/.miahou/mcp_servers.json for the Miahou fork. This is the ACTIVE, working entry on this host. Prefix 'rea' -> tools surface to the agent as rea_*.",
+  "name": "rea",
+  "transport": "stdio",
+  "command": "rea",
+  "args": ["mcp"],
+  "prefix": "rea",
+  "env": {
+    "REA_ANALYSIS_PROVIDER": "ghidra",
+    "REA_GHIDRA_CHECKPOINT_DIR": "/home/lain/.miahou/rea/ghidra-checkpoints",
+    "REA_LOG_LEVEL": "info",
+    "REA_MCP_TOOL_FAMILIES": "direct,enhanced,native,artifact,managed,firmware,session",
+    "REA_MCP_INPUT_SCHEMA_PROFILE": "compact",
+    "REA_MCP_OUTPUT_SCHEMA_PROFILE": "compact"
+  },
+  "_variants": {
+    "vendored_local_install": {
+      "_comment": "Use if the fork ships its own rea-agents copy instead of relying on PATH.",
+      "name": "rea",
+      "transport": "stdio",
+      "command": "node",
+      "args": ["/home/lain/Miahou/rea-fork/vendor/rea-agents/scripts/rea.mjs", "mcp"],
+      "prefix": "rea"
+    },
+    "npx_pinned": {
+      "_comment": "Upstream's own registration (rea-agents/mcp.json). Pins the exact version.",
+      "name": "rea",
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "rea-agents@6.9.0", "mcp"],
+      "prefix": "rea"
+    },
+    "plugin_launcher": {
+      "_comment": "Upstream's plugin launcher (.codex-plugin/mcp.json). Resolves cwd-relative.",
+      "name": "rea",
+      "transport": "stdio",
+      "command": "node",
+      "args": ["./scripts/plugin-mcp-launcher.mjs", "6.9.0"],
+      "cwd": ".",
+      "startup_timeout_sec": 30
+    }
+  }
+}
